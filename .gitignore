@@ -1,0 +1,10 @@
+.DS_*
+.tern-*
+.idea/
+*.log
+*.sublime*
+!*.gitkeep
+
+tmp/*
+logs/*.log*
+node_modules/
