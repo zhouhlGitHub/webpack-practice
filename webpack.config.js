@@ -1,30 +1,43 @@
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+
 module.exports = {
-  entry: {
-    main: './src/js/index.js',
-    vendor: ['lodash', 'moment']
-  },
+  entry: './src/index.js',
   output: {
-    filename: '[name].[chunkHash:8].js',
-    path: './dist/js'
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
   },
   module: {
-    rules: [{
-      test: /\.css$/,
-      exclude: /node_modules/,
-      loader: ExtractTextPlugin.extract('css-loader?sourceMap')
-    }]
-  },
-  devtool: 'source-map',
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest']
-    }),
-    new ExtractTextPlugin({
-      filename: '[name].[chunkHash:8].css',
-      disable: false,
-      allchunks: true
-    })
-  ]
-}
+    rules: [
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 30000
+            }
+          }
+        ]
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          'file-loader'
+        ]
+      },
+      {
+        test: /\.xml$/,
+        use: [
+          'xml-loader'
+        ]
+      }
+    ]
+  }
+};
